@@ -1,6 +1,6 @@
 export const APP_NAME = 'ALX Listing App';
 export const APP_DESCRIPTION = 'A modern, scalable Airbnb clone built with Next.js, TypeScript, and TailwindCSS.';
-
+import { PropertyProps } from "../interfaces/index"
 export const DEFAULTS = {
   listingsPerPage: 12,
 };
