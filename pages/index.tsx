@@ -1,25 +1,30 @@
 import PropertyCard from "@/components/PropertyCard";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { PROPERTYLISTINGSAMPLE } from "../constants/index"
 
 export default function Home() {
-  const [properties, setProperties] = useState<{id:string, name:string, image:string, price:number, rating:number}[]>([]);
+  const [properties, setProperties] = useState<{ id: string, name: string, image: string, price: number, rating: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/properties`);
-        setProperties(response.data);
-      } catch (error) {
-        console.error("Error fetching properties:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchProperties();
-  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000);
+  }, [])
+
+  const products = useMemo(() => {
+    return PROPERTYLISTINGSAMPLE?.map((prod, id) => {
+      return {
+        id: `${id+1}`,
+        name: prod?.name,
+        price: prod?.price,
+        image: prod?.image,
+        rating: prod?.rating
+      }
+    })
+  }, [])
 
   if (loading) {
     return <p>Loading...</p>;
@@ -27,7 +32,7 @@ export default function Home() {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      {properties.map((property) => (
+      {products.map((property) => (
         <PropertyCard key={property.id} {...property} />
       ))}
     </div>
